@@ -1,5 +1,10 @@
+import player
+
+
 class Game:
     def __init__(self):
+        self.player = player.Player()
+
         self.screenSize = (800, 800)
         self.screenTitle = "Socket Game"
         self.screenRun = True
