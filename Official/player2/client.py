@@ -23,6 +23,15 @@ def callSocket(msg: str):
     s.close()
 
 
+# def getSocket():
+#     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#     port = 10_001
+#     host = socket.gethostname
+#     s.bind((port, host))
+#     msg = s.recv(1024)
+#     print(msg)
+
+
 # call server (for generate new player)
 callSocket(json.dumps(game.player.avatar))
 
@@ -62,3 +71,4 @@ print('ends game')
 
 game.player.avatar['remove'] = True
 callSocket(json.dumps(game.player.avatar))
+#getSocket()
