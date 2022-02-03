@@ -19,8 +19,8 @@ class Player(pygame.sprite.Sprite):
 
         self.id = str(uuid.uuid4())
 
-        self.avatar = {
-            "remove": False,
+        self.avatar = {#3 Event (death, new, move)
+            "Event": '',
             "id": self.id,
             "position": (self.rect.x, self.rect.y)
         }

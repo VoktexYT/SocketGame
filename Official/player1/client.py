@@ -24,6 +24,7 @@ def callSocket(msg: str):
 
 
 # call server (for generate new player)
+game.player.avatar['Event'] = 'new'
 callSocket(json.dumps(game.player.avatar))
 
 # config screen
@@ -60,5 +61,5 @@ while game.screenRun:
 pygame.quit()
 print('ends game')
 
-game.player.avatar['remove'] = True
+game.player.avatar['Event'] = 'death'
 callSocket(json.dumps(game.player.avatar))

@@ -19,15 +19,21 @@ def threaded_client(connection):
         data = connection.recv(1024)
         if not data:
             break
-        reply = 'Server: ' + data.decode('utf-8')
-        connection.sendall(str.encode(reply))
         profile = json.loads(data.decode())
-        if profile['remove']:
-            all_players.remove(profile['id'])
-        elif profile['id'] not in all_players:
-            all_players.append(profile['id'])
-        print(all_players)
 
+        if profile['Event']:
+            if profile['Event'] == 'death':
+                all_players.remove(profile['id'])
+            elif profile['Event'] == 'new':
+                all_players.append(profile['id'])
+            elif profile['Event'] == 'move':
+                pass
+            print(all_players)
+        else:
+            print('error, he not event in "Event" key')
+
+        reply = 'Hello'
+        connection.sendall(str.encode(reply))
 
 # def again():
 #     s2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
