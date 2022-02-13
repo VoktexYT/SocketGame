@@ -22,17 +22,21 @@ class Player(pygame.sprite.Sprite):
         self.avatar = {#3 Event (death, new, move)
             "Event": '',
             "id": self.id,
-            "position": (self.rect.x, self.rect.y)
+            "position": [self.rect.x, self.rect.y]
         }
 
     def moveLeft(self):
         self.rect.x -= self.velocity
+        self.avatar['position'][0] = self.rect.x
 
     def moveRight(self):
         self.rect.x += self.velocity
+        self.avatar['position'][0] = self.rect.x
 
     def moveUp(self):
         self.rect.y -= self.velocity
+        self.avatar['position'][1] = self.rect.y
 
     def moveDown(self):
         self.rect.y += self.velocity
+        self.avatar['position'][1] = self.rect.y

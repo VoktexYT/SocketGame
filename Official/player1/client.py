@@ -20,7 +20,9 @@ def callSocket(msg: str):
         print(str(e))
         exit()
     s.send(msg.encode())
+    data = s.recv(1024)
     s.close()
+    return data.decode()
 
 
 # call server (for generate new player)
@@ -32,7 +34,6 @@ screen = pygame.display.set_mode(game.screenSize)
 pygame.display.set_caption(game.screenTitle)
 coloringScreen = lambda: screen.fill(game.color['white'])
 pygame.display.flip()
-
 loop = True
 
 while game.screenRun:
@@ -45,14 +46,19 @@ while game.screenRun:
         elif event.type == pygame.KEYUP:
             game.player.btnPressed[event.key] = False
 
+    game.player.avatar['Event'] = 'move'
     if game.player.btnPressed.get(pygame.K_UP):
         game.player.moveUp()
+        callSocket(json.dumps(game.player.avatar))
     elif game.player.btnPressed.get(pygame.K_DOWN):
         game.player.moveDown()
+        callSocket(json.dumps(game.player.avatar))
     elif game.player.btnPressed.get(pygame.K_LEFT):
         game.player.moveLeft()
+        callSocket(json.dumps(game.player.avatar))
     elif game.player.btnPressed.get(pygame.K_RIGHT):
         game.player.moveRight()
+        callSocket(json.dumps(game.player.avatar))
 
     screen.blit(game.player.image, game.player.rect)
 
