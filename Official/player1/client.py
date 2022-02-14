@@ -1,6 +1,5 @@
 # import...
 import pygame
-import socket
 from game import Game
 import json
 
@@ -8,28 +7,10 @@ import json
 pygame.init()
 game = Game()
 
-
-# config server communication
-def callSocket(msg: str):
-    s = socket.socket()
-    host = socket.gethostname()
-    port = 10_000
-    try:
-        s.connect((host, port))
-    except socket.error as e:
-        print(str(e))
-        exit()
-    s.send(msg.encode())
-    data = s.recv(1024)
-    s.close()
-    return data.decode()
-
-
 # call server (for generate new player)
-game.player.avatar['Event'] = 'new'
-callSocket(json.dumps(game.player.avatar))
+game.CallEvent(game.allEvent[0], game.player.avatar)
 
-# config screen
+# config pygame screen
 screen = pygame.display.set_mode(game.screenSize)
 pygame.display.set_caption(game.screenTitle)
 coloringScreen = lambda: screen.fill(game.color['white'])
@@ -46,22 +27,21 @@ while game.screenRun:
         elif event.type == pygame.KEYUP:
             game.player.btnPressed[event.key] = False
 
-    game.player.avatar['Event'] = 'move'
-    if game.player.btnPressed.get(pygame.K_UP):
-        game.player.moveUp()
-        callSocket(json.dumps(game.player.avatar))
-    elif game.player.btnPressed.get(pygame.K_DOWN):
-        game.player.moveDown()
-        callSocket(json.dumps(game.player.avatar))
-    elif game.player.btnPressed.get(pygame.K_LEFT):
-        game.player.moveLeft()
-        callSocket(json.dumps(game.player.avatar))
-    elif game.player.btnPressed.get(pygame.K_RIGHT):
-        game.player.moveRight()
-        callSocket(json.dumps(game.player.avatar))
+    if game.player.btnPressed.get(pygame.K_UP) or game.player.btnPressed.get(pygame.K_DOWN) or game.player.btnPressed.get(pygame.K_LEFT) or game.player.btnPressed.get(pygame.K_RIGHT):
+        game.CallEvent(game.allEvent[1], json.dumps(game.player.avatar))
 
+        if game.player.btnPressed.get(pygame.K_UP):
+            game.player.moveUp()
+        elif game.player.btnPressed.get(pygame.K_DOWN):
+            game.player.moveDown()
+        elif game.player.btnPressed.get(pygame.K_LEFT):
+            game.player.moveLeft()
+        elif game.player.btnPressed.get(pygame.K_RIGHT):
+            game.player.moveRight()
+
+    # call server for number player
+    nbrPlayer = callSocket('GET-Player')
     screen.blit(game.player.image, game.player.rect)
-
     pygame.display.update()
 
 pygame.quit()

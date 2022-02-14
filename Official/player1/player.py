@@ -19,8 +19,7 @@ class Player(pygame.sprite.Sprite):
 
         self.id = str(uuid.uuid4())
 
-        self.avatar = {#3 Event (death, new, move)
-            "Event": '',
+        self.avatar = {
             "id": self.id,
             "position": [self.rect.x, self.rect.y]
         }

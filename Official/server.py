@@ -2,6 +2,7 @@ import socket
 from _thread import *
 import json
 
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = socket.gethostname()
 port = 10_000
@@ -28,9 +29,12 @@ def threaded_client(connection):
                 all_players[profile['id']] = {}
             elif profile['Event'] == 'move':
                 all_players[profile['id']]['position'] = profile['position']
-            print(all_players)
+            else:
+                # unknown event
+                pass
         else:
             print('error, he not event in "Event" key')
+
         connection.sendall(str.encode(json.dumps(all_players)))
 
 
