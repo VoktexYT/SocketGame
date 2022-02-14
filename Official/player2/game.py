@@ -3,10 +3,6 @@ import socket
 import json
 
 
-# class Game_Player:
-#     def __init__(self, nbrPlayer):
-#         self.player = player.Player()
-
 class Game:
     def __init__(self):
         self.player = player.Player()

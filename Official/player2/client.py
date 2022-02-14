@@ -43,8 +43,11 @@ while game.screenRun:
         pass
 
     # call server for number player
-    screen.blit(game.player.image, game.player.rect)
-    pygame.display.update()
+    nbrPlayer = len(game.CallEvent('get:players:id').split(':'))
+
+    for i in range(nbrPlayer):
+        screen.blit(game.player.image, game.player.rect)
+        pygame.display.update()
 
 pygame.quit()
 print('ends game')
