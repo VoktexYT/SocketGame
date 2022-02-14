@@ -71,7 +71,7 @@ while game.screenRun:
     # display all player if not alone or one player if alone
     if number_player_online != 0:
         for i in range(number_player_online):
-            print(online_player.players[f'player{i}'].avatar['id'])
+            print(online_player.players[f'player{i}'].rect)
             screen.blit(online_player.players[f'player{i}'].image, online_player.players[f'player{i}'].rect)
 
     screen.blit(game.player.image, game.player.rect)
