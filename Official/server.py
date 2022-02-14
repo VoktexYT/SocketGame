@@ -41,13 +41,20 @@ def threaded_client(connection):
                 for playerId in all_players:
                     allId += playerId+':'
                 allId = allId[:-1]
-                connection.sendall(str.encode(allId))
-            elif profile['Event'] == 'get:players:position':
-                pass
-        else:
-            print('error, he not event in "Event" key')
+                if allId:
+                    connection.sendall(str.encode(allId))
+                else:
+                    connection.sendall(b'204')
 
-        print(all_players)
+            elif profile['Event'] == 'get:players:position':
+                all_position = {}
+                try:
+                    for playerId2 in all_players:
+                        all_position[playerId2] = all_players[playerId2]['position']
+                    connection.sendall(json.dumps(all_position))
+                except:
+                    connection.sendall(b'204')
+
 while True:
     Client, address = s.accept()
     start_new_thread(threaded_client, (Client,))

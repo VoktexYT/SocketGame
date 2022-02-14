@@ -1,12 +1,26 @@
 # import...
 import pygame
-from game import Game
+from game import Game, OnlinePlayer
 
 # init instance
 pygame.init()
 game = Game()
 
-# call server (for generate new player)
+# call server (for generate new player) and (get information all player)
+allPlayerId = game.CallEvent('get:players:id')
+allPlayerPosition = game.CallEvent('get:players:position')
+alonePlayer = False
+
+if '204' not in [allPlayerId, allPlayerPosition]: # check there are one player or more online
+    nbrPlayer = len(allPlayerId)
+    onlinePlayer = OnlinePlayer(nbrPlayer)
+    for i in onlinePlayer.players:
+        eachPlayer = onlinePlayer.players.get(f'player{i}')
+        selfId = eachPlayer.avatar['id']
+        eachPlayer.rect = allPlayerPosition[selfId]
+else:
+    alonePlayer = True
+
 game.CallEvent(game.allEvent[0], game.player.avatar)
 
 # config pygame screen
@@ -42,7 +56,11 @@ while game.screenRun:
     else:
         pass
 
-    # call server for number player
+    # display all player if not alone or one player if alone
+    if not alonePlayer:
+        for idPlayer in allPlayerId:
+            screen.blit(onlinePlayer.players[idPlayer].image, onlinePlayer.players[idPlayer].image)
+
     screen.blit(game.player.image, game.player.rect)
     pygame.display.update()
 

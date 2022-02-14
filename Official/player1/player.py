@@ -1,5 +1,6 @@
 import pygame
 import uuid
+import random
 
 
 class Player(pygame.sprite.Sprite):
@@ -14,8 +15,8 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, self.playerSize)
 
         self.rect = self.image.get_rect()
-        self.rect.x = 100
-        self.rect.y = 200
+        self.rect.x = random.randint(50, 200)
+        self.rect.y = random.randint(50, 200)
 
         self.id = str(uuid.uuid4())
 
