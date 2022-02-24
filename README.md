@@ -5,7 +5,7 @@ Make by me.
 I use pygame, socket and threading.
 The but is to dodge the fireball.
 
-Pygame: for display the vidéo game.
+Pygame: for display the video game.
 Socket: for call server whit port.
 Threads: to divide the work in the code of each player
 
