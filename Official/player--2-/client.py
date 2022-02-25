@@ -7,7 +7,7 @@ from game import Game, OnlinePlayer
 pygame.init()
 game = Game()
 
-# create screen
+# create and stylising game screen
 screen = pygame.display.set_mode(game.screenSize)
 pygame.display.set_caption(game.screenTitle)
 coloringScreen = lambda: screen.fill(game.color['blue:dark'])
@@ -23,6 +23,7 @@ for i in game_rule:
         game_rule_online[i] = game_rule[i]
 id_player_online = [x for x in game_rule_online]
 
+# saved the after rule for comparison
 after_game_rule = game_rule
 
 # create the other player if there are
@@ -36,16 +37,20 @@ while game.screenRun:
     game_rule = json.loads(game.CallEvent(game.allEvent[3]))
     number_player_online = len(game_rule) - 1
     game_rule_online = {}
+
+    # fill game rule for all online player
     for i in game_rule:
         if i != game.player.avatar['id']:
             game_rule_online[i] = game_rule[i]
 
-    if number_player_online != len(after_game_rule)-1:
-        if number_player_online > len(after_game_rule)-1:
+    # check if player connect or disconnect
+    if number_player_online != len(after_game_rule) - 1:
+        if number_player_online > len(after_game_rule) - 1:
             online_player = OnlinePlayer(number_player_online)
         after_game_rule = game_rule
 
     coloringScreen()
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game.screenRun = False
@@ -77,9 +82,10 @@ while game.screenRun:
             online_player.players[f'player{i}'].rect.y = game_rule_online[id_]['position'][1]
             screen.blit(online_player.players[f'player{i}'].image, online_player.players[f'player{i}'].rect)
 
+    # display local player
     screen.blit(game.player.image, game.player.rect)
     pygame.display.update()
 
+# close all and call server for disconnect
 pygame.quit()
-print('ends game')
 game.CallEvent(game.allEvent[2], game.player.avatar)

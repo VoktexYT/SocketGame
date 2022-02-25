@@ -1,18 +1,21 @@
-import player
+# Import
+from player import Player
 import socket
 import json
 
 
+# create dict with all online player
 class OnlinePlayer:
     def __init__(self, nbrPlayer):
         self.players = {}
         for i in range(nbrPlayer):
-            self.players[f'player{i}'] = player.Player()
+            self.players[f'player{i}'] = Player()
 
 
+# this is all configuration for the game
 class Game:
     def __init__(self):
-        self.player = player.Player()
+        self.player = Player()
 
         self.screenSize = (800, 800)
         self.screenTitle = f"Socket Game ({str(__file__).split('/')[-2]})"
@@ -54,6 +57,7 @@ class Game:
         s.close()
         return data.decode()
 
+    # call "CallSocket" function with param
     def CallEvent(self, Event, param=None):
         if Event in self.allEvent:
             EventJSON = {'Event': Event}

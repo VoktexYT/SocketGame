@@ -1,8 +1,10 @@
+# Import
 import pygame
 import uuid
 import random
 
 
+# class PLayer for create avatar (id, position) and pygame sprite
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
