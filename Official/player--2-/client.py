@@ -28,6 +28,8 @@ after_game_rule = game_rule
 # create the other player if there are
 if game_rule_online != 0:
     online_player = OnlinePlayer(number_player_online)
+    for i in range(number_player_online):
+        online_player.players[f'player{i}'].avatar['id'] = id_player_online[i]
 
 # Game loop
 while game.screenRun:
@@ -70,8 +72,9 @@ while game.screenRun:
 
     # display all player if not alone or one player if alone
     if number_player_online != 0:
-        for i in range(number_player_online):
-            print(online_player.players[f'player{i}'].rect)
+        for i, id_ in enumerate(game_rule_online):
+            online_player.players[f'player{i}'].rect.x = game_rule_online[id_]['position'][0]
+            online_player.players[f'player{i}'].rect.y = game_rule_online[id_]['position'][1]
             screen.blit(online_player.players[f'player{i}'].image, online_player.players[f'player{i}'].rect)
 
     screen.blit(game.player.image, game.player.rect)
