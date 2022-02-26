@@ -37,6 +37,7 @@ while game.screenRun:
     game_rule = json.loads(game.CallEvent(game.allEvent[3]))
     number_player_online = len(game_rule) - 1
     game_rule_online = {}
+    commitPosition = tuple(map(int, game.CallEvent(game.allEvent[4]).split('.')))
 
     # fill game rule for all online player
     for i in game_rule:
@@ -44,12 +45,18 @@ while game.screenRun:
             game_rule_online[i] = game_rule[i]
 
     # check if player connect or disconnect
-    if number_player_online != len(after_game_rule) - 1:
-        if number_player_online > len(after_game_rule) - 1:
+    if number_player_online != len(after_game_rule)-1:
+        if number_player_online > len(after_game_rule)-1:
             online_player = OnlinePlayer(number_player_online)
         after_game_rule = game_rule
 
+    # update function
     coloringScreen()
+    game.meteorite.rect.x = commitPosition[0]
+    game.meteorite.rect.y = commitPosition[1]
+
+    if game.meteorite.deathPlayer():
+        game.screenRun = False
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -82,7 +89,8 @@ while game.screenRun:
             online_player.players[f'player{i}'].rect.y = game_rule_online[id_]['position'][1]
             screen.blit(online_player.players[f'player{i}'].image, online_player.players[f'player{i}'].rect)
 
-    # display local player
+    # display local player, meteorite
+    screen.blit(game.meteorite.image, game.meteorite.rect)
     screen.blit(game.player.image, game.player.rect)
     pygame.display.update()
 

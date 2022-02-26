@@ -1,5 +1,8 @@
 # Import
+import pygame.sprite
+
 from player import Player
+from meteorite import Meteorite
 import socket
 import json
 
@@ -15,11 +18,15 @@ class OnlinePlayer:
 # this is all configuration for the game
 class Game:
     def __init__(self):
-        self.player = Player()
-
         self.screenSize = (800, 800)
         self.screenTitle = f"Socket Game ({str(__file__).split('/')[-2]})"
         self.screenRun = True
+
+        self.player = Player()
+        self.meteorite = Meteorite(self)
+
+        self.all_players = pygame.sprite.Group()
+        self.all_players.add(self.player)
 
         self.color = {
             'white': (255, 255, 255),
@@ -38,7 +45,8 @@ class Game:
             'players:death',
 
             # has the information for other player
-            'get:rule'
+            'get:rule',
+            'commit:move'
         ]
 
         self.socket_host = socket.gethostname()
@@ -66,3 +74,7 @@ class Game:
             return self.CallSocket(json.dumps(EventJSON))
         else:
             raise SyntaxError
+
+    # check if 2 or several entity collision
+    def checkCollision(self, sprite, group):
+        return pygame.sprite.spritecollide(sprite, group, False, pygame.sprite.collide_mask)
