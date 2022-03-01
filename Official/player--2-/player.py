@@ -6,7 +6,7 @@ import random
 
 # class PLayer for create avatar (id, position) and pygame sprite
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, username='Player'):
         super().__init__()
 
         self.playerSize = (130, 130)
@@ -17,14 +17,21 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, self.playerSize)
 
         self.rect = self.image.get_rect()
-        self.rect.x = random.randint(50, 200)
-        self.rect.y = random.randint(50, 200)
+        self.rect.x = random.randint(50, 750)
+        self.rect.y = random.randint(50, 750)
 
         self.id = str(uuid.uuid4())
 
+        self.TitleName = pygame.font.SysFont('font/Prompt-Bold.ttf', 30)
+        self.TitleUsername = self.TitleName.render(username, True, (0, 255, 0))
+
+        self.UserName = pygame.font.SysFont('font/Prompt-Bold.ttf', 20)
+        self.UserNameImg = self.UserName.render(username, True, (255, 255, 255))
+
         self.avatar = {
             "id": self.id,
-            "position": [self.rect.x, self.rect.y]
+            "position": [self.rect.x, self.rect.y],
+            "name": username
         }
 
     def moveLeft(self):

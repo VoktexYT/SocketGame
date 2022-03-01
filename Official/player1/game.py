@@ -17,12 +17,12 @@ class OnlinePlayer:
 
 # this is all configuration for the game
 class Game:
-    def __init__(self):
+    def __init__(self, username):
         self.screenSize = (800, 800)
         self.screenTitle = f"Socket Game ({str(__file__).split('/')[-2]})"
         self.screenRun = True
 
-        self.player = Player()
+        self.player = Player(username)
         self.meteorite = Meteorite(self)
 
         self.all_players = pygame.sprite.Group()

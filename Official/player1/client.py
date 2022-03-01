@@ -3,9 +3,12 @@ import pygame
 import json
 from game import Game, OnlinePlayer
 
+# get information of player
+username = input("Entry your username: ")
+
 # init instance
 pygame.init()
-game = Game()
+game = Game(username)
 
 # create and stylising game screen
 screen = pygame.display.set_mode(game.screenSize)
@@ -22,6 +25,7 @@ for i in game_rule:
     if i != game.player.avatar['id']:
         game_rule_online[i] = game_rule[i]
 id_player_online = [x for x in game_rule_online]
+name_player_online = [game_rule_online[x]['name'] for x in game_rule_online]
 
 # saved the after rule for comparison
 after_game_rule = game_rule
@@ -31,6 +35,9 @@ if game_rule_online != 0:
     online_player = OnlinePlayer(number_player_online)
     for i in range(number_player_online):
         online_player.players[f'player{i}'].avatar['id'] = id_player_online[i]
+        online_player.players[f'player{i}'].avatar['name'] = name_player_online[i]
+
+        print(online_player.players[f'player{i}'].avatar)
 
 # Game loop
 while game.screenRun:
@@ -39,21 +46,29 @@ while game.screenRun:
     game_rule_online = {}
     commitPosition = tuple(map(int, game.CallEvent(game.allEvent[4]).split('.')))
 
+    # check if player connect or disconnect
+    if number_player_online != len(after_game_rule)-1:
+        online_player = OnlinePlayer(number_player_online)
+        after_game_rule = game_rule
+
     # fill game rule for all online player
     for i in game_rule:
         if i != game.player.avatar['id']:
             game_rule_online[i] = game_rule[i]
 
-    # check if player connect or disconnect
-    if number_player_online != len(after_game_rule)-1:
-        if number_player_online > len(after_game_rule)-1:
-            online_player = OnlinePlayer(number_player_online)
-        after_game_rule = game_rule
+    if game_rule_online != 0:
+        id_player_online = [x for x in game_rule_online]
+        name_player_online = [game_rule_online[x]['name'] for x in game_rule_online]
+        online_player = OnlinePlayer(number_player_online)
+        for i in range(number_player_online):
+            online_player.players[f'player{i}'].avatar['id'] = id_player_online[i]
+            online_player.players[f'player{i}'].avatar['name'] = name_player_online[i]
 
     # update function
     coloringScreen()
     game.meteorite.rect.x = commitPosition[0]
     game.meteorite.rect.y = commitPosition[1]
+    game.meteorite.animation()
 
     if game.meteorite.deathPlayer():
         game.screenRun = False
@@ -85,13 +100,17 @@ while game.screenRun:
     # display all player if not alone or one player if alone
     if number_player_online != 0:
         for i, id_ in enumerate(game_rule_online):
+            online_player.players[f'player{i}'].UserNameImg = pygame.font.SysFont('font/Prompt-Bold.ttf', 20).render(online_player.players[f'player{i}'].avatar['name'], True, (255, 255, 255))
             online_player.players[f'player{i}'].rect.x = game_rule_online[id_]['position'][0]
             online_player.players[f'player{i}'].rect.y = game_rule_online[id_]['position'][1]
             screen.blit(online_player.players[f'player{i}'].image, online_player.players[f'player{i}'].rect)
+            screen.blit(online_player.players[f'player{i}'].UserNameImg, (online_player.players[f'player{i}'].rect.x, online_player.players[f'player{i}'].rect.y-15))
 
     # display local player, meteorite
     screen.blit(game.meteorite.image, game.meteorite.rect)
     screen.blit(game.player.image, game.player.rect)
+    screen.blit(game.player.TitleUsername, (20, 20))
+    screen.blit(game.player.UserNameImg, (game.player.rect.x+10, game.player.rect.y-15))
     pygame.display.update()
 
 # close all and call server for disconnect

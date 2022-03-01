@@ -37,7 +37,7 @@ def threaded_client(connection):
                 connection.sendall(b'200')
 
             elif profile['Event'] == 'players:new':
-                all_players[profile['id']] = {'position': profile['position']}
+                all_players[profile['id']] = {'position': profile['position'], 'name': profile['name']}
                 connection.sendall(str.encode(json.dumps(all_players)))
 
             elif profile['Event'] == 'players:move':
