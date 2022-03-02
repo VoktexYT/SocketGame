@@ -11,7 +11,7 @@ class Player(pygame.sprite.Sprite):
 
         self.playerSize = (130, 130)
         self.btnPressed = {}
-        self.velocity = 1
+        self.velocity = 2
 
         self.image = pygame.image.load('img/player.png')
         self.image = pygame.transform.scale(self.image, self.playerSize)

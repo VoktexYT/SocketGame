@@ -22,7 +22,7 @@ class Meteorite(pygame.sprite.Sprite):
 
     def deathPlayer(self):
         if self.game.checkCollision(self, self.game.all_players):
-            return False
+            return True
 
     def animation(self):
         if self.rightAnimation:
