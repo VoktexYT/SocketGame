@@ -7,7 +7,7 @@ class Player(pygame.sprite.Sprite):
 
         self.playerSize = (130, 130)
 
-        self.image = pygame.image.load('/home/guertinu/CODE/Python/SocketGame/Official/Img/player.png')
+        self.image = pygame.image.load('/home/---/CODE/Python/SocketGame/Official/Img/player.png')
         self.image = pygame.transform.scale(self.image, self.playerSize)
 
         self.rect = self.image.get_rect()
