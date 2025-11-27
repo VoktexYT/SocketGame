@@ -1,17 +1,18 @@
 # Socket game
 
-This is the multiplayer game.
-Make by me.
-I use pygame, socket and threading.
-The but is to dodge the fireball.
+## Multiplayer Fireball Dodger Game
+This is a personal multiplayer game project I am developing. The main objective of the game is for players to dodge fireballs.
 
-Pygame: for display the video game.
-Socket: for call server whit port.
-Threads: to divide the work in the code of each player
+## Technology Stack
+The game is built using the following core technologies:
 
-The futur update ?
+Pygame: Used for displaying the video game and handling graphics.
 
-Create the room system for connect some player
-Put the video game on public (to connect to internet)
+Socket: Used for client-server communication over a specific port.
 
-Etc
+Threading: Used to divide the workload within the code, allowing the server to handle each connected player concurrently.
+
+## Future Updates
+I plan to implement the following features in upcoming updates:
+Room System: Create a system to manage separate game rooms where multiple players can connect.
+Public Deployment: Make the game publicly accessible on the internet, allowing users outside the local network to connect and play.
